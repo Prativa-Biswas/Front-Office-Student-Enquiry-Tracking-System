@@ -22,9 +22,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	private EmailUtils emailSender;
 	
 	@Override
-	public Boolean userRegistration(RegistrationForm regForm) throws Exception {
+	public Boolean userRegistration(RegistrationForm regForm) {
+		
+		String email = regForm.getEmail();
+		
 		// TODO: Validate email is unique
-		UserDetails userByEmail = userRepo.getByEmail(regForm.getEmail());
+		UserDetails userByEmail = userRepo.getByEmail(email);
 		if(userByEmail!=null) {
 			return false;
 		}
@@ -44,7 +47,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		     userRepo.save(user);
 		     
 		// TODO: Send mail to Unlock account
-		     emailSender.sendMail(regForm.getEmail(), password, password);
+		     String subject= "Unlock The Account ";
+		     StringBuffer body= new StringBuffer("");
+		     body.append("<h1>Use Below Temporary password to unlock your account </h1>");
+		     body.append("Temporarary password: "+password);
+		     body.append("<br>");
+		     body.append("<a href=\"http://localhost:8080/unlock?email=" + email + "\">Click here to unlock your Account</a>");		     
+		     emailSender.sendMail(email, subject, body.toString());
 		     
 		return true;
 	}

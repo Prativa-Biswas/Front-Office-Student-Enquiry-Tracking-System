@@ -13,7 +13,7 @@ public class EmailUtils {
 	@Autowired
 	private JavaMailSender mailSender;
 	
-	public boolean sendMail(String to, String subject, String body) throws Exception{
+	public boolean sendMail(String to, String subject, String body) {
 		
 		try {
 			

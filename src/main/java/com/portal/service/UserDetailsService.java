@@ -6,7 +6,7 @@ import com.portal.dto.UnlockAccountForm;
 
 public interface UserDetailsService {
 
-	public Boolean userRegistration(RegistrationForm regForm)  throws Exception;
+	public Boolean userRegistration(RegistrationForm regForm);
 	public String userLogin(LoginForm login);
 	public String userAccountUnlock(UnlockAccountForm accForm);
 	public String ForgotPassword(String email);
