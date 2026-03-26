@@ -44,16 +44,32 @@ public class UserController {
 	@GetMapping("/unlock")
 	public String getunlockPage(@RequestParam("email") String email , Model model) {
 		
-		model.addAttribute("email",email);
+		
+		UnlockAccountForm unlockForm = new UnlockAccountForm();
+		unlockForm.setEmail(email);
+		
+		model.addAttribute("unlockForm",unlockForm);
 				
 		return "unlock";
 	}
 	
 	@PostMapping("/unlock")
-	public String unlockHandler(UnlockAccountForm form, Model model) {
+	public String unlockHandler( @ModelAttribute("unlockForm") UnlockAccountForm unlockForm, Model model) {
 		
-		String msg = service.userAccountUnlock(form);
-		model.addAttribute("message",msg);
+		// TODO: Check new password = confirm password
+	    if(unlockForm.getNewPassword().equals(unlockForm.getConfirmPassword()))
+	    {
+			String msg = service.userAccountUnlock(unlockForm);
+			
+					if(msg.contains("SUCCESS"))			{
+						model.addAttribute("message","Account Unlocked");			}
+					else {
+					model.addAttribute("errorMsg",msg);	 			}
+	    }
+	    else
+	    {
+	        model.addAttribute("errorMsg","New password and confirm password mismatch");
+	    }
 				
 		return "unlock";
 	}

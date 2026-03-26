@@ -61,40 +61,30 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	
 	@Override
 	public String userAccountUnlock(UnlockAccountForm accForm) {
+		
 		// TODO: Check user by email
 		    UserDetails user = userRepo.getByEmail(accForm.getEmail());
 		    if(user==null)
 		    {
-		    	return "Account not found with this email";
-		    }
+		    	return "Account not found with this email";	    }
 		    
 		    if("UNLOCKED".equalsIgnoreCase(user.getAccStatus()))
 		    {
 		    	return "Account is Already Unlock";
 		    }
-		// TODO: Check new password = confirm password
-		    if(!accForm.getNewPassword().equalsIgnoreCase(accForm.getConfirmPassword()))
-		    {
-		    	return "New password and comfirm password mismatch";
-		    }
 		    
 		 // TODO: check temporary password & set entity object
-		    if(!user.getPassword().equalsIgnoreCase(accForm.getTemporaryPassword()))
+		    if(!user.getPassword().equals(accForm.getTemporaryPassword()))
 		    {
-		    	return "Temporaray password not correct";
-		    }
-		    else
-		    {
+		    	return "Temporaray password is  Incorrect";	    }
+		    
+			// TODO: Save Object   
 		    	String newPassword = accForm.getNewPassword();
 		    	user.setAccStatus("UNLOCKED");
 		    	user.setPassword(newPassword);
 		    	userRepo.save(user);
-		    }
-		    	
-		// TODO: Save Object
-		
-		
-		return "Account Unlocked";
+		   	
+		return "SUCCESS";
 	}
 
 	
