@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
 <meta charset="UTF-8" />
@@ -82,34 +82,41 @@
 										<h4 class="mt-1 mb-5 pb-1">Unlock your account here</h4>
 									</div>
 
-									<form>
+									<form action="unlock" method="post">
+                                         <span th:text="${message}"></span>
 
 										<div class="form-outline mb-6">
-											<h6>Your Email </h6>
-										</div>
-
-										<div class="form-outline mb-4">
-											<input type="password" id="form2Example22"
-												class="form-control" /> <label class="form-label"
-												for="form2Example22">Temporary Password</label>
-										</div>
-
-										<div class="form-outline mb-4">
-											<input type="password" id="form2Example22"
-												class="form-control" /> <label class="form-label"
-												for="form2Example22">New Password</label>
+											<h6>Your Email: <span th:text="${email}"></span> </h6>
 										</div>
 										
+										 <!-- Send to backend -->
+                                         <input type="hidden" name="email" th:value="${email}" />
+
+                                       <!-- Temporary Password -->
 										<div class="form-outline mb-4">
-											<input type="password" id="form2Example22"
-												class="form-control" /> <label class="form-label"
-												for="form2Example22">Confirm Password</label>
+											<input type="password" id="form2Example22"  name="temporaryPassword"
+												class="form-control" />
+												 <label class="form-label"	for="form2Example22">Temporary Password</label>
+										</div>
+
+                                          <!-- New Password -->
+										<div class="form-outline mb-4">
+											<input type="password" id="form2Example22" name="newPassword"
+												class="form-control" /> 
+												<label class="form-label" for="form2Example22">New Password</label>
+										</div>
+										
+										 <!-- Confirm Password -->
+										<div class="form-outline mb-4">
+											<input type="password" id="form2Example22" name="confirmPassword"
+												class="form-control" /> 
+												<label class="form-label" for="form2Example22">Confirm Password</label>
 										</div>
 
 										<div class="text-center pt-1 mb-5 pb-1">
 											<button
 												class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3"
-												type="button">Unlock</button>
+												type="submit">Unlock</button>
 										</div>
 
 										<div

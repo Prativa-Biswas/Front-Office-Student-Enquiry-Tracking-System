@@ -5,10 +5,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.portal.dto.RegistrationForm;
+import com.portal.dto.UnlockAccountForm;
 import com.portal.service.UserDetailsService;
 
 @Controller
@@ -40,6 +41,23 @@ public class UserController {
 	}
 	
 	
+	@GetMapping("/unlock")
+	public String getunlockPage(@RequestParam("email") String email , Model model) {
+		
+		model.addAttribute("email",email);
+				
+		return "unlock";
+	}
+	
+	@PostMapping("/unlock")
+	public String unlockHandler(UnlockAccountForm form, Model model) {
+		
+		String msg = service.userAccountUnlock(form);
+		model.addAttribute("message",msg);
+				
+		return "unlock";
+	}
+	
 	@GetMapping("/login")
 	public String getLoginPage(Model model) {
 		
@@ -49,11 +67,6 @@ public class UserController {
 	
 	
 	
-	@GetMapping("/unlock/email/{email}")
-	public String getunlocPage(@PathVariable String email) {
-		
-		
-		return "unlock";
-	}
+	
 
 }

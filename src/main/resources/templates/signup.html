@@ -84,7 +84,8 @@
 
 									<form action="signup" th:object="${user}"  method="post">
 										<p>Please create account here</p>
-																				<div th:if="${successMsg}" class="alert alert-success">
+										
+										<div th:if="${successMsg}" class="alert alert-success">
 										    <span th:text="${successMsg}"></span>
 										</div>
 										
