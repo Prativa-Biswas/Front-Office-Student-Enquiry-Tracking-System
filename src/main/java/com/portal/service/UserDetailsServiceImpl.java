@@ -91,8 +91,20 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	
 	@Override
 	public String userLogin(LoginForm login) {
-		// TODO Auto-generated method stub
-		return null;
+
+		UserDetails userEntity = userRepo.findByEmailAndPassword(login.getEmail(), login.getPassword());
+		
+		if(userEntity==null)
+		{
+			return "Invalid Login Credentials";
+		}
+		
+		if(userEntity.getAccStatus().equalsIgnoreCase("LOCKED"))
+		{
+			return "Account is Locked. Check your Email and Unlock account";
+		}
+		
+		return "SUCCESS";
 	}
 
 	

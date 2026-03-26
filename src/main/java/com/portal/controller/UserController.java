@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.portal.dto.LoginForm;
 import com.portal.dto.RegistrationForm;
 import com.portal.dto.UnlockAccountForm;
 import com.portal.service.UserDetailsService;
@@ -77,10 +78,25 @@ public class UserController {
 	@GetMapping("/login")
 	public String getLoginPage(Model model) {
 		
+		model.addAttribute("loginForm", new LoginForm());
 		
 		return "login";
 	}
 	
+	@PostMapping("/login")
+	public String Logine( @ModelAttribute LoginForm loginForm, Model model) {
+		
+		String loginMessage = service.userLogin(loginForm);
+		
+		if(loginMessage.contains("SUCCESS")) {
+			
+			return "redirect:/dashboard";
+		}	
+		
+		model.addAttribute("errorMsg",loginMessage);
+		
+		return "login";
+	}
 	
 	
 	
