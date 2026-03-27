@@ -110,9 +110,25 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	
 
 	@Override
-	public String ForgotPassword(String email) {
-		// TODO Auto-generated method stub
-		return null;
+	public Boolean ForgotPassword(String email) {
+
+		UserDetails userEntiy = userRepo.getByEmail(email);
+		
+		if(userEntiy==null)
+		{
+			return false;
+		}
+		
+		String password = userEntiy.getPassword();
+		String subject= "Password Recovery Details";
+		StringBuffer body= new StringBuffer("");
+		body.append("<p>Dear User,</P>");
+		body.append("<p>Your password is: "+password+"</P>");
+		body.append("<p>Please use this password to log in to your account.</P>");
+	
+		emailSender.sendMail(email, subject, body.toString());	
+		
+		return true;
 	}
 
 }

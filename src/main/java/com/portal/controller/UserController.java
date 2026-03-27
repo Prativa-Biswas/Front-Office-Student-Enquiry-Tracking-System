@@ -44,11 +44,9 @@ public class UserController {
 	
 	@GetMapping("/unlock")
 	public String getunlockPage(@RequestParam("email") String email , Model model) {
-		
-		
+			
 		UnlockAccountForm unlockForm = new UnlockAccountForm();
 		unlockForm.setEmail(email);
-		
 		model.addAttribute("unlockForm",unlockForm);
 				
 		return "unlock";
@@ -90,8 +88,7 @@ public class UserController {
 		
 		if(loginMessage.contains("SUCCESS")) {
 			
-			return "redirect:/dashboard";
-		}	
+			return "redirect:/dashboard";		}	
 		
 		model.addAttribute("errorMsg",loginMessage);
 		
@@ -99,6 +96,29 @@ public class UserController {
 	}
 	
 	
+	@GetMapping("/forgotPwd")
+	public String getFogotPwdPage() {
+		
+		
+		return "forgotPwd";
+	}
+	
+	
+	
+	@PostMapping("/forgotPwd")
+	public String FogotPassword(@RequestParam("email") String email, Model model) {
+		
+		Boolean isAvailable = service.ForgotPassword(email);
+		
+		if(isAvailable) {
+			model.addAttribute("successMsg","Kindly check your email to retrieve your password.");
+		}
+		else
+		{
+			model.addAttribute("errMsg","No user account exists for the provided email address.");
+		}
+		return "forgotPwd";
+	}
 	
 
 }

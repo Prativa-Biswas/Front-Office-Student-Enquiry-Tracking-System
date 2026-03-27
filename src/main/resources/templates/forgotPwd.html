@@ -6,7 +6,7 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 <meta http-equiv="x-ua-compatible" content="ie=edge" />
-<title>Tech Solutions - Login</title>
+<title>Tech Solutions IT - Forgot Pwd</title>
 <!-- MDB icon -->
 <link rel="icon" href="img/mdb-favicon.ico" type="image/x-icon" />
 <!-- Font Awesome -->
@@ -46,13 +46,13 @@
 
 	<nav class="navbar navbar-expand-lg bg-body-tertiary">
 		<div class="container-fluid">
-			<a class="navbar-brand" href="#"> <img alt="TechSolutions"
-				src="images/logo.png" width=20%>
+			<a class="navbar-brand" href="#"> <img alt="Tech Solutions"
+				src="images/logo.png" width=25%>
 			</a>
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 					<li class="nav-item"><a class="nav-link active"
-						aria-current="page" href="/">Home</a></li>
+						aria-current="page" href="#">Home</a></li>
 					<li class="nav-item"><a class="nav-link" href="#">Services</a>
 					</li>
 					<li class="nav-item"><a class="nav-link" href="#">Courses</a>
@@ -60,6 +60,7 @@
 					<li class="nav-item"><a class="nav-link" href="#">Contact
 							us</a></li>
 				</ul>
+				<a href="/login" class="btn btn-danger">Login</a>
 			</div>
 		</div>
 	</nav>
@@ -82,31 +83,32 @@
 										<h4 class="mt-1 mb-5 pb-1"></h4>
 									</div>
 
-									<form th:action="@{/login}" th:object=${loginForm} method="post">
-									<div  th:if="${errorMsg}" class="alert alert-danger">
-									    <span th:text="${errorMsg}" ></span>									    
+									<form action="/forgotPwd" method="post">
+									
+									<div th:if="${successMsg}" class="alert alert-success mt-2">
+									  <span th:text="${successMsg}"></span>
+									
 									</div>
-									<br>
-										<p>Please login to your account</p>
-										<div class="form-outline mb-4">
-											<input type="email" id="email" class="form-control" th:field="*{email}"
-												placeholder="Enter email address" />
-												 <label	class="form-label" for="email">Username</label>
-										</div>
+									<div th:if="${errMsg}" class="alert alert-danger mt-2">
+									  <span th:text="${errMsg}"></span>
+									
+									</div>
+									
+									
+										<p>Recover Your Password</p>
 
 										<div class="form-outline mb-4">
-											<input type="password" id="pwd" 
-												class="form-control"    th:field="*{password}"/>
-												 <label class="form-label" for="pwd">Password</label>
+											<input type="email" id="emailId" class="form-control" name="email"
+												placeholder="email address" /> <label
+												class="form-label" for="emailId">Email</label>
 										</div>
 
-										<div class="text-center pt-1 mb-5 pb-1">																					
-												<button type="submit"
-												    class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3">
-												    Log in
-												</button>										
-												
-											<a class="text-muted" href="forgotPwd">Forgot password?</a>
+										<div class="text-center pt-1 mb-5 pb-1">
+											<button 
+											    class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3"
+											    type="submit">
+											    Submit
+											</button>
 										</div>
 
 										<div

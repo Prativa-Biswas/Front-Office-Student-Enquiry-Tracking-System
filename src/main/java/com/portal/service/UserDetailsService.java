@@ -9,5 +9,5 @@ public interface UserDetailsService {
 	public Boolean userRegistration(RegistrationForm regForm);
 	public String userLogin(LoginForm login);
 	public String userAccountUnlock(UnlockAccountForm accForm);
-	public String ForgotPassword(String email);
+	public Boolean ForgotPassword(String email);
 }
