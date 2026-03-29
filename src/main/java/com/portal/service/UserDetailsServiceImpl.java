@@ -12,6 +12,8 @@ import com.portal.repository.UserDetailsRepository;
 import com.portal.utils.EmailUtils;
 import com.portal.utils.PasswordUtils;
 
+import jakarta.servlet.http.HttpSession;
+
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
@@ -20,6 +22,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	
 	@Autowired
 	private EmailUtils emailSender;
+	
+	@Autowired  
+	private HttpSession session;
+	
 	
 	@Override
 	public Boolean userRegistration(RegistrationForm regForm) {
@@ -103,6 +109,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		{
 			return "Account is Locked. Check your Email and Unlock account";
 		}
+		
+		session.setAttribute("userId", userEntity.getUserId());
 		
 		return "SUCCESS";
 	}

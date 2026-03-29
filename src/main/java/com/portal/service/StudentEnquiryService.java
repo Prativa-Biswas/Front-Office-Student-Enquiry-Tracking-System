@@ -11,7 +11,7 @@ public interface StudentEnquiryService {
 	public List<String> getCourseName();
 	public List<String> getStatusName();
 	public  DashBoardResponse getDashboardResponse(Integer userId);
-	public String addEnqury( EnquiryForm enquiry);
+	public Boolean addEnqury( EnquiryForm enquiry, Integer userId);
 	public List<EnquiryForm> getEnquiries(EnquirySearchCriteria search, Integer userId);
 	public EnquiryForm getEnquiry(Integer enqId);
 	

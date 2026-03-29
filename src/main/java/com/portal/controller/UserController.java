@@ -98,8 +98,7 @@ public class UserController {
 	
 	@GetMapping("/forgotPwd")
 	public String getFogotPwdPage() {
-		
-		
+				
 		return "forgotPwd";
 	}
 	
