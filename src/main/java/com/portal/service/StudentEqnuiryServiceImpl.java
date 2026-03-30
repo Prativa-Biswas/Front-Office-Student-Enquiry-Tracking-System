@@ -2,6 +2,8 @@ package com.portal.service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,24 +44,21 @@ public  class StudentEqnuiryServiceImpl implements StudentEnquiryService {
 	@Override
 	public DashBoardResponse getDashboardResponse(Integer userId) {
 		
-		
-		List<String> statusList = enquiryRepo.findStusentEnqueryStatus(userId);
 		DashBoardResponse response= new DashBoardResponse();
-
-		if (statusList == null) {
-			response.setTotalEnquiery(0);
-			response.setEnrolledEnquiery(0);
-			response.setLostEnquiery(0);
-			return response;
+		Optional<UserDetails> userEntity = userRepo.findById(userId);
+		if(userEntity.isPresent())
+		{
+			UserDetails userDetails = userEntity.get();
+			List<StudentEnquiry> enquiryList = userDetails.getEnquiryList();
+			
+			int totalCount = enquiryList.size();
+			int lostCount = enquiryList.stream().filter(n->n.getEnquiryStatus().equalsIgnoreCase("LOST")).collect(Collectors.toList()).size();
+			int enrolledCount = enquiryList.stream().filter(n->n.getEnquiryStatus().equalsIgnoreCase("ENROLLED")).collect(Collectors.toList()).size();
+			
+			response.setTotalEnquiery(totalCount);
+			response.setEnrolledEnquiery(enrolledCount);
+			response.setLostEnquiery(lostCount);
 		}
-		
-		int totalCount = statusList.size();
-		long lostCount = statusList.stream().filter(n->n.equalsIgnoreCase("LOST")).count();
-		long enrolledCount = statusList.stream().filter(n->n.equalsIgnoreCase("ENROLLED")).count();
-		
-		response.setTotalEnquiery(totalCount);
-		response.setEnrolledEnquiery(Math.toIntExact(enrolledCount));
-		response.setLostEnquiery(Math.toIntExact(lostCount));
 		
 		return response;
 	}
