@@ -28,7 +28,14 @@ public class EnquiryController {
 	@Autowired
 	private HttpSession session;
 	
-	
+	/**
+	 * Handles user logout functionality.
+	 * 
+	 * This method invalidates the current HTTP session,
+	 * effectively logging out the user and clearing all session data.
+	 * 
+	 * @return String - redirects user to the index (home) page after logout
+	 */
 	@GetMapping("/logout")
 	public String logoutUser() {
 		
@@ -37,7 +44,15 @@ public class EnquiryController {
 		return "index";
 	}
 	
-	
+	/**
+	 * Handles request to display the dashboard page.
+	 * 
+	 * This method retrieves dashboard data based on the logged-in user's ID
+	 * from the session and adds it to the model to be displayed on the UI.
+	 * 
+	 * @param model Model object used to pass data from controller to view
+	 * @return String - returns the dashboard view page
+	 */
 	@GetMapping("/dashboard")
 	public String getDashboardPage( Model model) {
 		
@@ -47,7 +62,17 @@ public class EnquiryController {
 		
 		return "dashboard";
 	}
-		
+	
+	
+	/**
+	 * Handles request to display the Add Enquiry page.
+	 * 
+	 * This method initializes an empty enquiry form object and loads
+	 * required data (like dropdown values) into the model for the UI.
+	 * 
+	 * @param model Model object used to pass data to the view
+	 * @return String - returns the add-enquiry page
+	 */
 	@GetMapping("/enquiry")
 	public String getAddEnquiryPage(Model model ) {
 		 model.addAttribute("enquiryForm", new EnquiryForm());
@@ -55,8 +80,19 @@ public class EnquiryController {
 	     
 		return "add-enquiry";
 	}
-
 	
+
+	/**
+	 * Handles submission of the Add Enquiry form.
+	 * 
+	 * This method retrieves the logged-in user's ID from the session,
+	 * processes the enquiry form, and saves it to the database.
+	 * It also sends success or error messages back to the UI.
+	 * 
+	 * @param enquiryForm EnquiryForm object containing user input data
+	 * @param model Model object used to pass response messages to the view
+	 * @return String - returns the add-enquiry page with status message
+	 */
 	@PostMapping("/enquiry")
 	public String get(@ModelAttribute("enquiryForm") EnquiryForm enquiryForm,  Model model ) {
 		
@@ -74,7 +110,16 @@ public class EnquiryController {
 		return "add-enquiry";
 	}
 	
-	
+	/**
+	 * Handles request to display all enquiries for the logged-in user.
+	 * 
+	 * This method retrieves the user ID from the session, fetches all
+	 * associated enquiries from the service layer, and adds them to the model
+	 * for display on the view page.
+	 * 
+	 * @param model Model object used to pass enquiry data to the view
+	 * @return String - returns the view-enquiries page
+	 */
 	
 	@GetMapping("/enquiries")
 	public String getVewEnqueyPage( Model model) {
@@ -85,6 +130,19 @@ public class EnquiryController {
 		return "view-enquiries";
 	}
 	
+	/**
+	 * Handles filtering of enquiries based on search criteria.
+	 * 
+	 * This method receives filter parameters (course, status, mode) from the request,
+	 * constructs a search criteria object, and retrieves filtered enquiries for the
+	 * logged-in user. The result is sent back to the UI (typically via AJAX).
+	 * 
+	 * @param course Course name used as filter criteria
+	 * @param status Enquiry status used as filter criteria
+	 * @param mode Class mode used as filter criteria
+	 * @param model Model object used to pass filtered data to the view
+	 * @return String - returns the filtered enquiries view page
+	 */
 	@GetMapping("/filterEnquiries")
 	public String getFilterEnquery(@RequestParam("course") String course, 
 			@RequestParam("status")  String status, 
@@ -102,6 +160,17 @@ public class EnquiryController {
 				return "fitlerdView-enquiries";
 	}
 	
+	/**
+	 * Handles request to load the Edit Enquiry page.
+	 * 
+	 * This method retrieves the enquiry details based on enquiryId and
+	 * the logged-in user's ID from the session. The data is then added
+	 * to the model to pre-populate the edit form.
+	 * 
+	 * @param enquiryId ID of the enquiry to be edited
+	 * @param model Model object used to pass enquiry data to the view
+	 * @return String - returns the editData page
+	 */
 	@GetMapping("/edit")
 	public String getMethodName(@RequestParam("enquiryId")Integer enquiryId,  Model model ) {
 		Integer userId = (Integer) session.getAttribute("userId");
@@ -111,6 +180,17 @@ public class EnquiryController {
 		return "editData";
 	}
 	
+	/**
+	 * Handles submission of the Edit Enquiry form.
+	 * 
+	 * This method updates the enquiry details in the database based on
+	 * the submitted form data and the logged-in user's ID. It returns
+	 * success or error messages to the UI accordingly.
+	 * 
+	 * @param enquiryForm EnquiryForm object containing updated enquiry details
+	 * @param model Model object used to pass response messages to the view
+	 * @return String - returns the editData page with update status
+	 */
 	@PostMapping("/edit")
 	public String editFuctionality(@ModelAttribute("enquiryForm") EnquiryForm enquiryForm,  Model model ) {
 		Integer userId = (Integer) session.getAttribute("userId");
@@ -127,6 +207,15 @@ public class EnquiryController {
 		return "editData";
 	}
 	
+	/**
+	 * Initializes common model attributes required for enquiry forms.
+	 * 
+	 * This method loads course names and enquiry status values from the service layer
+	 * and adds them to the model. These attributes are typically used to populate
+	 * dropdown fields in the UI.
+	 * 
+	 * @param model Model object used to pass data to the view
+	 */
 	
 	private void init(Model model) {
 		model.addAttribute("courses",service.getCourseName()); 
