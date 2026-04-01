@@ -9,7 +9,7 @@ It provides functionalities like **user authentication, enquiry management, dash
 ## Technologies Used
 - **Backend:** Spring Boot, Spring MVC, Spring Data JPA  
 - **Frontend:** HTML, CSS, JavaScript, Bootstrap, Thymeleaf  
-- **Database:** Oracle (SQL, PL/SQL)  
+- **Database:** MySQL 
 - **Server:** Tomcat  
 - **Tools:** Eclipse / STS  
 
@@ -39,8 +39,7 @@ It provides functionalities like **user authentication, enquiry management, dash
 After login, user is redirected to dashboard showing:
 - Total enquiries  
 - Enrolled enquiries  
-- Lost enquiries  
-- Other status-based counts  
+- Lost enquiries   
 
 
 ## Enquiry Management
@@ -86,8 +85,9 @@ After login, user is redirected to dashboard showing:
 controller/    → Handles HTTP requests
 service/       → Business logic
 repository/    → Database operations (JPA)
+runner/        → To Load Dropdown Data
 entity/        → Database entities
-dto/form/      → Form binding objects
+dto/           → Form binding objects
 templates/     → Thymeleaf UI pages
 
 ```
