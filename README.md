@@ -82,12 +82,15 @@ After login, user is redirected to dashboard showing:
 
 
 ##  Project Structure
-controller/ → Handles HTTP requests
-service/ → Business logic
-repository/ → Database operations (JPA)
-entity/ → Database entities
-dto/form/ → Form binding objects
-templates/ → Thymeleaf UI pages
+```
+controller/    → Handles HTTP requests
+service/       → Business logic
+repository/    → Database operations (JPA)
+entity/        → Database entities
+dto/form/      → Form binding objects
+templates/     → Thymeleaf UI pages
+
+```
 
 
 ##  Key Highlights
@@ -98,5 +101,5 @@ templates/ → Thymeleaf UI pages
 -  Clean layered architecture (Controller → Service → Repository)  
 
 
-## 👩‍💻 Author
+## Author
 **Prativa Biswas**
