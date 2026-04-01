@@ -108,17 +108,100 @@ public  class StudentEqnuiryServiceImpl implements StudentEnquiryService {
 	}
 
 	@Override
-	public List<EnquiryForm> getEnquiries(EnquirySearchCriteria search, Integer userId) {
-		// TODO Auto-generated method stub
+	public List<StudentEnquiry> getEnquiries( Integer userId) {
+		
+		Optional<UserDetails> userEntity = userRepo.findById(userId);
+		if(userEntity.isPresent())
+		{
+			UserDetails userDetails = userEntity.get();
+			List<StudentEnquiry> enquiryList = userDetails.getEnquiryList();
+			return enquiryList;
+		}
+		
 		return null;
+	}
+	
+	public  List<StudentEnquiry>  findFilterEnqueries(EnquirySearchCriteria criteria, Integer userId) {
+		
+		Optional<UserDetails> userOpt = userRepo.findById(userId);
+		if(userOpt.isPresent()) {
+		
+          List<StudentEnquiry> enquiryList = userOpt.get().getEnquiryList();
+		
+				if(criteria.getCourseName()!=null && !criteria.getCourseName().isBlank()) {
+				
+					enquiryList = enquiryList.stream().filter(enq->enq.getCourseName().equals(criteria.getCourseName())).collect(Collectors.toList());
+				}
+		
+				if(criteria.getEnquiryStatus()!=null && !criteria.getEnquiryStatus().isBlank()) {
+					
+					enquiryList = enquiryList.stream().filter(enq->enq.getEnquiryStatus().equals(criteria.getEnquiryStatus())).collect(Collectors.toList());
+				}
+		
+				if(criteria.getClassMode()!=null && !criteria.getClassMode().isBlank()) {
+							
+							enquiryList = enquiryList.stream().filter(enq->enq.getClassMode().equals(criteria.getClassMode())).collect(Collectors.toList());
+				}
+		
+		return enquiryList;
+		}
+		
+		return null;
+		
 	}
 
 	@Override
-	public EnquiryForm getEnquiry(Integer enqId) {
-		// TODO Auto-generated method stub
+	public EnquiryForm getEnquiry(Integer enqId, Integer userId) {
+           Optional<UserDetails> userOpt = userRepo.findById(userId);
+           if(userOpt.isPresent()) {
+        	  EnquiryForm enquiryForm = new EnquiryForm ();
+        	   UserDetails userDetails = userOpt.get();
+        	   List<StudentEnquiry> enquiryList = userDetails.getEnquiryList();
+        	   Optional<StudentEnquiry> first = enquiryList.stream().filter(e->e.getEnquiryId().equals(enqId)).findFirst();
+        	   if(first.isPresent())
+        	   {
+        		   StudentEnquiry studentEnquiry = first.get();
+        		   enquiryForm.setStudentName(studentEnquiry.getStudentName());
+        		   enquiryForm.setContactNo(studentEnquiry.getContactNo());
+        		   enquiryForm.setClassMode(studentEnquiry.getClassMode());
+        		   enquiryForm.setCourseName(studentEnquiry.getCourseName());
+        		   enquiryForm.setEnquiryStatus(studentEnquiry.getEnquiryStatus());
+        		   enquiryForm.setEnquiryId(enqId);
+        		   
+        		   return enquiryForm;
+        	   }
+        		   return null;
+           }				
 		return null;
 	}
+	
+	
+	@Override
+	public String updateEnquiry(EnquiryForm enquiry, Integer userId) {
+	    System.out.println(enquiry.getEnquiryId());
 
+	    Optional<UserDetails> userOpt = userRepo.findById(userId);
+	    if (userOpt.isEmpty()) return "User Not found";
 
+	    List<StudentEnquiry> enquiryList = userOpt.get().getEnquiryList();
+	    if (enquiryList == null || enquiryList.isEmpty()) return "Enquiries not found for the user";
+
+	    Optional<StudentEnquiry> studentOpt = enquiryList.stream()
+	            .filter(e -> e.getEnquiryId().equals(enquiry.getEnquiryId()))
+	            .findFirst();
+
+	    if (studentOpt.isEmpty()) return "Enquiry Not found";
+
+	    StudentEnquiry studentEnquiry = studentOpt.get();
+	    studentEnquiry.setStudentName(enquiry.getStudentName());
+	    studentEnquiry.setCourseName(enquiry.getCourseName());
+	    studentEnquiry.setContactNo(enquiry.getContactNo());
+	    studentEnquiry.setClassMode(enquiry.getClassMode());
+	    studentEnquiry.setEnquiryStatus(enquiry.getEnquiryStatus());
+	    studentEnquiry.setUpdateDate(LocalDate.now());
+
+	    enquiryRepo.save(studentEnquiry);
+	    return "SUCCESS";
+	}	
 
 }

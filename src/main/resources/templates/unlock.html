@@ -100,24 +100,27 @@
 									    <input type="hidden" th:field="*{email}" />
 
                                        <!-- Temporary Password -->
-										<div class="form-outline mb-4">
+										<div class="mb-4">
+										<label class="form-label"	for="tempPwd">Temporary Password</label>
 											<input type="text" id="tempPwd"  th:field="*{temporaryPassword}"
 												class="form-control"  placeholder="Enter Temporary Password"/>
-												 <label class="form-label"	for="tempPwd">Temporary Password</label>
+												 
 										</div>
 
                                           <!-- New Password -->
-										<div class="form-outline mb-4">
+										<div class="mb-4">
+										<label class="form-label" for="newPwd">New Password</label>
 											<input type="password" id="newPwd" th:field="*{newPassword}"
 												class="form-control" placeholder="Enter New Password" /> 
-												<label class="form-label" for="newPwd">New Password</label>
+												
 										</div>
 										
 										 <!-- Confirm Password -->
-										<div class="form-outline mb-4">
+										<div class="mb-4">
+										<label class="form-label" for="confirmPwd">Confirm Password</label>
 											<input type="password" id="confirmPwd" th:field="*{confirmPassword}"
 												class="form-control" placeholder="Enter Confirm Password" /> 
-												<label class="form-label" for="confirmPwd">Confirm Password</label>
+												
 										</div>
 
 										<div class="text-center pt-1 mb-5 pb-1">
